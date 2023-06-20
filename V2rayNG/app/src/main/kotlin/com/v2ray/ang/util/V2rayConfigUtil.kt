@@ -68,6 +68,8 @@ object V2rayConfigUtil {
 
         v2rayConfig.outbounds[0] = outbound
 
+        fragments(v2rayConfig)
+
         routing(v2rayConfig)
 
         fakedns(v2rayConfig)
@@ -84,6 +86,26 @@ object V2rayConfigUtil {
         result.status = true
         result.content = v2rayConfig.toPrettyPrinting()
         return result
+    }
+
+    private fun fragments(v2rayConfig: V2rayConfig) {
+        if (settingsStorage?.decodeBool(AppConfig.PREF_FRAGMENT_ENABLED) == true) {
+            val packets: String = settingsStorage?.decodeString(AppConfig.PREF_FRAGMENT_PACKETS)?: "tlshello"
+            val interval: String = settingsStorage?.decodeString(AppConfig.PREF_FRAGMENT_INTERVAL)?: "100-200"
+            val length: String = settingsStorage?.decodeString(AppConfig.PREF_FRAGMENT_LENGTH) ?: "10-20"
+            var proxyIndex = 1
+            v2rayConfig.outbounds.withIndex().filter {it.value.tag == "proxy"}.forEach {
+                proxyIndex = it.index
+                it.value.streamSettings?.sockopt = V2rayConfig.OutboundBean.StreamSettingsBean.SockOpt(dialerProxy = "fragment")
+            }
+            v2rayConfig.outbounds.add(proxyIndex + 1,
+                V2rayConfig.OutboundBean(
+                    protocol = "freedom",
+                    tag = "fragment",
+                    settings = V2rayConfig.OutboundBean.OutSettingsBean(fragment = V2rayConfig.OutboundBean.OutSettingsBean.FragmentBean(packets = packets, length = length, interval = interval)),
+                    streamSettings = V2rayConfig.OutboundBean.StreamSettingsBean(network = null, security = null, sockopt=V2rayConfig.OutboundBean.StreamSettingsBean.SockOpt(tcpNoDelay = true)),
+                    mux = null))
+        }
     }
 
     /**

@@ -124,6 +124,31 @@
                 android:summary="%s"
                 android:title="@string/title_mode" />
 
+        <PreferenceCategory android:title="Fragment Settings">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_fragment_enabled"
+                android:summary="Enable fragment, if you dont know about it dont mess with it"
+                android:title="Enable fragment" />
+            <EditTextPreference
+                android:dependency="pref_fragment_enabled"
+                android:key="pref_fragment_packets"
+                android:summary="tlshello"
+                android:inputType="text"
+                android:title="Fragment packets" />
+            <EditTextPreference
+                android:dependency="pref_fragment_enabled"
+                android:key="pref_fragment_length"
+                android:summary="X-X or 1"
+                android:inputType="text"
+                android:title="Fragment length" />
+            <EditTextPreference
+                android:dependency="pref_fragment_enabled"
+                android:key="pref_fragment_interval"
+                android:summary="X-X or 1"
+                android:inputType="text"
+                android:title="Fragment interval" />
+        </PreferenceCategory>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/title_ui_settings">

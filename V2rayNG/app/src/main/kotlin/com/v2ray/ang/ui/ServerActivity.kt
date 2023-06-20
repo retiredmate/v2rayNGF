@@ -210,7 +210,7 @@ class ServerActivity : BaseActivity() {
             sp_security?.setSelection(security)
         }
 
-        val streamSecurity = Utils.arrayFind(streamSecuritys, streamSetting.security)
+        val streamSecurity = Utils.arrayFind(streamSecuritys, streamSetting.security?: "")
         if (streamSecurity >= 0) {
             sp_stream_security?.setSelection(streamSecurity)
             (streamSetting.tlsSettings?: streamSetting.realitySettings)?.let { tlsSetting ->
@@ -255,7 +255,7 @@ class ServerActivity : BaseActivity() {
                 container_spider_x?.visibility = View.GONE
             }
         }
-        val network = Utils.arrayFind(networks, streamSetting.network)
+        val network = Utils.arrayFind(networks, streamSetting.network?:"tcp")
         if (network >= 0) {
             sp_network?.setSelection(network)
         }

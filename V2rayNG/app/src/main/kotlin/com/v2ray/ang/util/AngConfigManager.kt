@@ -584,8 +584,8 @@ object AngConfigManager {
                         outbound.settings?.vnext?.get(0)?.users?.get(0)?.alterId.toString()
                     vmessQRCode.scy =
                         outbound.settings?.vnext?.get(0)?.users?.get(0)?.security.toString()
-                    vmessQRCode.net = streamSetting.network
-                    vmessQRCode.tls = streamSetting.security
+                    vmessQRCode.net = streamSetting.network ?: "tcp"
+                    vmessQRCode.tls = streamSetting.security ?: ""
                     vmessQRCode.sni = streamSetting.tlsSettings?.serverName.orEmpty()
                     vmessQRCode.alpn =
                         Utils.removeWhiteSpace(streamSetting.tlsSettings?.alpn?.joinToString())
@@ -649,7 +649,7 @@ object AngConfigManager {
                         }
                     }
 
-                    dicQuery["security"] = streamSetting.security.ifEmpty { "none" }
+                    dicQuery["security"] = streamSetting.security?.ifEmpty { "none" } ?: ""
                     (streamSetting.tlsSettings
                         ?: streamSetting.realitySettings)?.let { tlsSetting ->
                         if (!TextUtils.isEmpty(tlsSetting.serverName)) {
@@ -672,7 +672,7 @@ object AngConfigManager {
                             dicQuery["spx"] = Utils.urlEncode(tlsSetting.spiderX!!)
                         }
                     }
-                    dicQuery["type"] = streamSetting.network.ifEmpty { V2rayConfig.DEFAULT_NETWORK }
+                    dicQuery["type"] = streamSetting.network?.ifEmpty { V2rayConfig.DEFAULT_NETWORK } ?: "tcp"
 
                     outbound.getTransportSettingDetails()?.let { transportDetails ->
                         when (streamSetting.network) {

@@ -80,11 +80,6 @@
     }
   },
   {
-    "protocol": "freedom",
-    "settings": {},
-    "tag": "direct"
-  },
-  {
     "protocol": "blackhole",
     "tag": "block",
     "settings": {

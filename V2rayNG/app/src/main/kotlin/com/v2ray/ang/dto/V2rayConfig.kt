@@ -85,6 +85,7 @@ data class V2rayConfig(
                 /*Wireguard*/
                                    val secretKey: String? = null,
                                    val peers: List<WireGuardBean>? = null,
+                                   var fragment: FragmentBean? = null,
         ) {
 
             data class VnextBean(var address: String = "",
@@ -120,10 +121,14 @@ data class V2rayConfig(
 
             data class WireGuardBean(var publicKey: String = "",
                                      var endpoint: String = "")
+
+            data class FragmentBean(var packets: String = "tlshello",
+                                    var length: String = "100-200",
+                                    var interval: String = "10-20")
         }
 
-        data class StreamSettingsBean(var network: String = DEFAULT_NETWORK,
-                                      var security: String = "",
+        data class StreamSettingsBean(var network: String? = null,
+                                      var security: String? = null,
                                       var tcpSettings: TcpSettingsBean? = null,
                                       var kcpSettings: KcpSettingsBean? = null,
                                       var wsSettings: WsSettingsBean? = null,
@@ -133,8 +138,12 @@ data class V2rayConfig(
                                       var realitySettings: TlsSettingsBean? = null,
                                       var grpcSettings: GrpcSettingsBean? = null,
                                       val dsSettings: Any? = null,
-                                      val sockopt: Any? = null
+                                      var sockopt: Any? = null
         ) {
+
+            data class SockOpt(var tcpNoDelay: Boolean? = null,
+                               var dialerProxy: String? = null,
+            )
 
             data class TcpSettingsBean(var header: HeaderBean = HeaderBean(),
                                        val acceptProxyProtocol: Boolean? = null) {
