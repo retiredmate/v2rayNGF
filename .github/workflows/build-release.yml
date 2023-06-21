@@ -18,6 +18,9 @@ jobs:
         with:
           java-version: '11'
 
+      - name: Download libv2ray
+        run: cd V2rayNG/app/libs && wget https://github.com/retiredmate/AndroidLibXrayLite/releases/download/1687379760/libv2ray.aar
+
       - name: Update permissions for gradlew
         run: chmod +x V2rayNG/gradlew
 
